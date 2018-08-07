@@ -1,30 +1,35 @@
-# Learn To Code: Intro to JQuery and the DOM
+# Learn To Code: Intro to DOM manipulation with javascript
 
-Learn how to code the Galvanize way in jQuery and explore the Document Object Model (DOM).
+You may want to do some fancy stuff in your web page or web app, and heard that jQuery is the way to do it. NOPE. That might have been true several years ago, but these days, most modern browsers support everything you need to do most things without loading the entire jQuery library in.
 
-This tutorial is heavily derived from [Learn jQuery](http://learn.jquery.com). To learn more, visit their site and explore!
+This tutorial borrows heavily from [You Might Not Need jQuery](http://youmightnotneedjquery.com/). To continue learning, visit their site and explore!
 
-## What IS jQuery?
+## What is jQuery?
 
-JQuery (also called jQuery in this tutorial) is a JavaScript library initially released in 2006 and stands as the most popular JavaScript library in use today. JQuery *IS* JavaScript, in a sense, written in a way that requires less code and improves the accessibility of an already relatively accessible language.
+jQuery is a JavaScript library that was released in 2006. It is described on their site thusly:
 
-This very quick tutorial will help you set up jQuery onto your computer and learn some of its basic usages.
+```
+ [jQuery] makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers.
+ ```
 
-## What IS the DOM?
+Back in 2006, different web browsers (IE, Opera, Firefox, Safari, Netscape, and eventually, Chrome) implemented javascript inconsistently, so javascript didn't behave the same on everyone's browser. jQuery allowed developers to write code once that would (mostly) work across all the different browsers.
 
-The Document Object Model (commonly known as the DOM) is a cross-platform, language-independent convention that allows you to communicate and interact with elements in HTML, XHTML, and XML. Applying a tree-like structure, the DOM is essential to any training of jQuery.
+Nowadays, all the major browsers more or less agree on how javascript should behave, and we can use the standard features of javascript (and some CSS) to do everything people would use jQuery to do.
 
-## Pre-requisites for this course
+## What is the DOM?
 
-It will be most helpful for you to have a basic understanding of HTML, CSS, and JavaScript. You can gain that knowledge by completing the following courses by yourself or at your nearby Galvanize campus:
+The DOM (or Document Object Model) is the way that browsers turn your HTML into javascript objects that you can use and manipulate through code. Really, it's just what it says on the tin: a *Model* of your HTML page (or *Document*) composed of a bunch of javascript *Objects* in a tree structure.
+
+## Pre-requisites 
+
+This tutorial assumes that you're already familiar with the basics of HTML, CSS, and javascript. If you need to brush up on your fundamental web development skills, run through the following courses for a quick refresher:
 
 - [Introduction to HTML and CSS](http://github.com/galvanizeOpenSource/learn-to-code-html-css)
 - [Introduction to JavaScript](http://github.com/galvanizeOpenSource/learn-to-code-javascript)
 
-**Installation requirements for this course**
+You should haved a modern web browser (like [Google Chrome](http://chrome.google.com) or [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/)) installed—they have developer tools that you can use to inspect the elements of your web page.
 
-1. A reliable web browser. We recommend [Google Chrome](http://chrome.google.com) for element inspection.
-2. A good text editor. We recommend [Atom.io](http://flight-manual.atom.io/getting-started/sections/installing-atom/).
+You'll also need a good text editor to work on your code. We recommend [Visual Studio Code](https://code.visualstudio.com/) or [Atom](https://atom.io/).
 
 ## Let's get started!
 
