@@ -241,7 +241,9 @@ Reload your page, and give it a few clicks to see what happens in your javascrip
 **YOU DID IT!** You added a loader and click function to your web page using just regular old vanilla javascript, without a lick of jQuery. Don't you feel awesome? You should. Let's do more!
 
 
-## Adding and Removing Classes in jQuery
+## Adding and Removing Classes 
+
+So, our button already looks nice (thank you, [Skeleton](http://getskeleton.com/)!), but let's make it BIGGER AND BETTER.
 
 Let's face it - your button is ugly. We can make it look better. We're going to create three things:
 
