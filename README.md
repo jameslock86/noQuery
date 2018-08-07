@@ -20,6 +20,7 @@ Nowadays, all the major browsers more or less agree on how javascript should beh
 
 The DOM (or Document Object Model) is the way that browsers turn your HTML into javascript objects that you can use and manipulate through code. Really, it's just what it says on the tin: a *Model* of your HTML page (or *Document*) composed of a bunch of javascript *Objects* in a tree structure.
 
+
 ## Pre-requisites 
 
 This tutorial assumes that you're already familiar with the basics of HTML, CSS, and javascript. If you need to brush up on your fundamental web development skills, run through the following courses for a quick refresher:
@@ -30,6 +31,7 @@ This tutorial assumes that you're already familiar with the basics of HTML, CSS,
 You should haved a modern web browser (like [Google Chrome](http://chrome.google.com) or [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/)) installed—they have developer tools that you can use to inspect the elements of your web page.
 
 You'll also need a good text editor to work on your code. We recommend [Visual Studio Code](https://code.visualstudio.com/) or [Atom](https://atom.io/).
+
 
 ## Let's get started!
 
@@ -113,78 +115,131 @@ Open up your page in a browser (or use your text editor's live server extension,
 
 Now we're ready to begin!
 
+
 ## Your first task: Ready the Document!
 
 The first thing we want to do is wrap our javascript code in a way that isolates it from any other javascript that might interfere with the correct operation of our code, and so that it doesn't run until the HTML page is fully ready to accept our commands.
 
 If you were using jQuery, you'd do something like this:
 
-```javascript
+```js
 $(document).ready(function() {
      // insert the rest of your code here.
 });
 ```
 
+NOPE.
 
-It is not wise to manipulate a page unless the elements are completely loaded. This is why we put our JavaScript invocations near the bottom to allow for the page to load first. in jQuery, we start that process with "Document, Ready", and the rest of your code will be initialized here.
+Let's see how we can do that with vanilla javascript. We're actually going to separate out the two concepts: isolating our code, and running it when the document is ready.
 
-**Remember:** we've set up our page so that jQuery will be running on a different file, not the HTML one. *Why should we get into the practice of coding this way?*
+First, let's turn our console log into a function. In your `script.js` file, change that part to look like this:
 
-#### Now what? Let's create an alert!
+```js
+function ready() {
+    console.log('Hello, programmer!');
+}
 
-Let's add the following code to your `$( document ).ready` function:
-```javascript
-     window.alert("The document is ready! (jQuery is working!)");
 ```
-This should create a pop-up window saying "The document is ready!" (You'll need to allow pop-ups in your browser.)
 
-Add the code to look like the following, then save and refresh your browser.
-```javascript
-$( document ).ready(function() {
-     window.alert("The document is ready! (jQuery is working!)");
-});
+Then, you can call (or invoke) the function you just wrote like this:
+
+```js
+ready();
 ```
-**Note:** is this alert pops up, that means your JavaScript code is working. This is one way to check if that is the case. (What are some more conventional ways to check this?)
 
-## More functionality: On-Click Events!
+Reload your page, and look at the javascript console to see that it still works. Now, we're going to isolate our function in something called an `IIFE`. (That stands for "[Immediately Invoked Function Expression](https://en.wikipedia.org/wiki/Immediately-invoked_function_expression)", but don't worry about exactly how that works for now.) Basically, we're going to put your code in an anonymous function, and call it immediately. It sounds complicated, but it's pretty easy-just change your code to look like this:
 
-In jQuery, events are methods that happen with the user's interaction. There are a LOT of them in the jQuery library, but we're going to start with a common on: `click`.
+```js
+(() => {
+    function ready() {
+        console.log('Hello, programmer!');
+    }
+
+    ready();
+})();
+```
+
+Again, reload your page, and see that it works the same! (Why do this if it works exactly the same? Think about what would happen if someone loaded some other javascript in to the page after your script file, and created another function with the same name as yours. TROUBLE, that's what.) (Side note: you should really do this whether you're using jQuery or not. I just wanted to make sure that you know about it.) (One more note: notice that we're using something called a "[fat-arrow function(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)]" instead of the regular `function` declaration that you might be used to. This is "new" and "fancy" and you should learn it!)
+
+Okay, part two: running your function when the document is loaded. This is also an easy do. Just change your `ready()` line that calls your function to look like this:
+
+```js
+    document.addEventListener('DOMContentLoaded', ready);
+```
+
+This is doing basically exactly what jQuery's `$(document).ready(function())` is doing, but it comes standard with javascript now, so you don't have to load in a 250k library to make it work. :) The one thing that jQuery does for you here is add support for older browsers like IE (*ugh*), but if you want to do that, it's just one or two more lines of code. (That you can find at the links at the bottom of the page.)
+
+**Remember:** We've set up our page so that our javascript code will be running from its own file, not from a `<script>` tag in our HTML. *Why should we get into the practice of coding this way?*
+
+
+## Adding functionality: Click Events!
+
+In javascript, events are messages that are sent from one part of the code to another to let it know what's going on. In our case, we want to catch a `click` event that is generated from an HTML button, and grab it with our javascript code to do something with it. This is called "listening" for an event.
+
+(There are *lots* of events that you can throw around and listen for. We're going to stick with click events for now, but don't be afraid to poke around and learn more on your own!)
+
+### Make a Button
+
+First, let's add a button in our HTML file for to click on. Add this button element inside the container `<div>` in your document's `<body>`, after the `<h1>` header element:
 
 First, let's create something in our HTML for the user to click on. Insert the following code somewhere in the `<body>`:
 
 ```html
-<button type="button">This is a button.</button>
+    <button class="button-primary">CLICK ME</button>
 ```
 
-This is a button in HTML, set to the browser's default settings. Add it to your `<body>`.
+### Get the Button
 
-Save your HTML file and refresh your browser. It should now appear. How do we make this button interact with the jQuery?
+This is just a regular html button, with a `button-primary` class for styling. Reload the page in your browser to see it! So, how do we make this button clickable? Well, first we need to grab our button with something called a *selector*. Using jQuery, you'd see this:
 
-**Choose your selector!** Capture `button` in the jQuery's selector:
-```javascript
-     $('button')
+```js
+    const button = $('button');
 ```
-**Declare the method!** Cite the jQuery method we want to use. In this case, we're using `.click` so that something happens when you click the button:
-```javascript
-     $('button').click()
+
+But we're not using jQuery! In plain old javascript, we can use `querySelector` instead:
+
+```js
+    const button = document.querySelector('button');
 ```
-**Define the method!** We are going to create a JavaScript function within the `.click` method to do a specific function for this `event` with an empty parameter. For simplicity, let's create another alert.
-```javascript
-     $('button').click(function() {
-          window.alert("Nice clicking, there, friend!");
-     });
-```     
-**Save and check!** Put it all in the `$( document ).ready()`, save your JS file, and refresh the browser. Did it work?
-```javascript
-$( document ).ready(function() {
-     window.alert("The document is ready!");
-     // new code below
-     $('button').click(function() {
-          window.alert("Nice clicking, there, friend!");
-     });
-});
+
+Add that code to your `script.js` file, right after where you log out "Hello, programmer!". Then after that, you can also log out the button element in your console to see that you've gotten the right bit. So now your code inside your `ready()` function should look like this:
+
+```js
+    const button = document.querySelector('button');
+    console.log(button);
 ```
-Now you know the general process of using jQuery. Let's try something new!
+
+And when you reload your page, you should see this in your console:
+
+```
+Hello, programmer!
+<button class=​"button-primary">​CLICK ME​</button>​
+```
+
+### Click the Button
+
+Now that we've got the button, let's tell our javascript to do something with it. When someone clicks the button, it will send a `click` event that we can catch and do something with. In jQuery, you'd just do something like:
+
+```js
+    $('button').click(function(event) { /* do stuff here */ });
+```
+
+But we're not using jQuery! Instead, we explicitly catch the event, and give it a callback function like so:
+
+```js
+    button.addEventListener('click', function(event) { /* do stuff here */ });
+```
+
+So let's do that. Add this to your code, inside the `ready()` function:
+
+```js
+    button.addEventListener('click', () => console.log('YOU CLICK GOOD'));
+```
+
+Reload your page, and give it a few clicks to see what happens in your javascript console! (Again, we're using the fat arrow function notation here. You could use `function() {console.log('etc')}` here just as well, but doesn't it look nice this way?)
+
+**YOU DID IT!** You added a loader and click function to your web page using just regular old vanilla javascript, without a lick of jQuery. Don't you feel awesome? You should. Let's do more!
+
 
 ## Adding and Removing Classes in jQuery
 
@@ -227,12 +282,12 @@ We'll need to give this link an `id` so that it matches up with the jQuery we'll
 </div>
 ```
 Now we're ready to set up our jQuery function. Add the following script into your `$( document ).ready()` function:
-```javascript
+```js
      $( '#add-class' ).click(function() {
      });
 ```
 Right now ths function does nothing when you click on it. Add the following script to this new function:
-```javascript
+```js
      $( '#add-class' ).click(function() {
           $( 'button' ).addClass('super-button');
      });
@@ -252,7 +307,7 @@ Let's keep the party going. Let's add a link that will remove the class. First s
 </div>
 ```
 We're now working with a new ID `#remove-class`. Let's make sure it has something to work with in the jQuery file. Add the following code in your `$( document ).ready()` function.
-```javascript
+```js
      $( '#remove-class' ).click(function(){
           $( 'button' ).removeClass('super-button');
      });
@@ -272,7 +327,7 @@ First step: create a third link in your HTML with the ID `toggle-class`.
 </div>
 ```
 Second step:
-```javascript
+```js
      $( '#toggle-class' ).click(function(){
           $( 'button' ).toggleClass('super-button');
      });
@@ -300,7 +355,7 @@ Click this #3!
 ```
 Good! Now move over to your `custom.js` file and add the following jQuery code into the `$( document ).ready()` function block. Notice something different in one of the selectors?
 
-```javascript
+```js
      $( '.click-this' ).click(function(){
           $( this ).toggleClass('click-this');
      });
@@ -343,7 +398,7 @@ Create a list with the following HTML code in your `index.html` file. Add a butt
 Let's create a jQuery function that deletes the children elements of the list.
 
 **Gut check:** one of our functions may be conflicting with the one we're about to make. I'm going to disable it with double dashes before each line:
-```javascript
+```js
     // $( 'button' ).click(function() {
      //    window.alert("Nice clicking there, my friend!");
     // });
@@ -362,7 +417,7 @@ First, we have to create an ID for the list: `item-list`. We also need an ID for
 
 Next, we go into our `custom.js` file and add yet another jQuery function:
 
-```javascript
+```js
      $( '#delete-list' ).click(function() {
           $( '#item-list' ).children().remove();
      });
@@ -380,7 +435,7 @@ Notice how we had to **chain** the methods of `.children()` and `.remove()` in o
 
 Create a new method where if you click on one of the items of the list, it will do something to the parent element. This time, let's change the text of that element to something else. We're going to make this conditional to any `<ul>` element.
 
-```javascript
+```js
      $( 'ul' ).click(function() {
           $( this ).parent();
       });
@@ -388,7 +443,7 @@ Create a new method where if you click on one of the items of the list, it will 
 
 This time, let's add a method `.text("We just changed the text! Take that, parents!");` to this function.
 
-```javascript
+```js
      $( 'ul' ).click(function() {
           $( this ).parent().text("We just changed the text! Take that, parents!")>;
       });
@@ -400,7 +455,7 @@ Save your work and refresh your browser. What happened? *and at what cost...?*
 
 The `<ul>` elements are siblings of one another. Let's click on one element and change the others! We'll need to modify our current block so that there are no conflicts.
 
-```javascript
+```js
      $( 'ul' ).click(function() {
           $( this ).siblings().text("My siblings are dorks!");
       });
