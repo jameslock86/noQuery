@@ -96,7 +96,7 @@ Your page should now look more like this:
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Demo of noQuery</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -104,29 +104,28 @@ Your page should now look more like this:
         <h1>Welcome to noQuery!</h1>
     </div>
 </body>
-<script src="script.js"></script>
+<script src="js/script.js"></script>
 
 </html>
 ```
+
+Open up your page in a browser (or use your text editor's live server extension, or the `lite-server` module, if you're awesome and already have one of those installed). You'll see your web page that says "Welcome to noQuery!", and if you open up your developer console (alt-cmd-j, or View->Developer->Javascript Console), you'll see that our javascript ran, and logged out "Hello, programmer!" to the console. 
 
 Now we're ready to begin!
 
 ## Your first task: Ready the Document!
 
-Let's begin by familiarizing ourselves with the the general syntax of jQuery. \n
+The first thing we want to do is wrap our javascript code in a way that isolates it from any other javascript that might interfere with the correct operation of our code, and so that it doesn't run until the HTML page is fully ready to accept our commands.
 
-#### JQuery is so "money" (nobody talks like that anymore)
+If you were using jQuery, you'd do something like this:
 
-**You can invoke jQuery in generally two ways:**
-- `jQuery.` - the "super" jQuery object that invokes all other objects to point to your jQuery library in your JavaScript file.
-- `$` - Become familiar with this symbol - it is the alias for `jQuery`. Its appearance in a JavaScript file or an HTML script tag implies that jQuery will be used on this line and the blocks that follow. One would say that this is the reason jQuery is so .... money!
-
-After invoking jQuery, the syntax follows the JavaScript standard of "Define, Declare, Call". Behold, the first function you declare: "Document, Ready"!
 ```javascript
-$( document ).ready(function() {
+$(document).ready(function() {
      // insert the rest of your code here.
 });
 ```
+
+
 It is not wise to manipulate a page unless the elements are completely loaded. This is why we put our JavaScript invocations near the bottom to allow for the page to load first. in jQuery, we start that process with "Document, Ready", and the rest of your code will be initialized here.
 
 **Remember:** we've set up our page so that jQuery will be running on a different file, not the HTML one. *Why should we get into the practice of coding this way?*
@@ -409,33 +408,38 @@ The `<ul>` elements are siblings of one another. Let's click on one element and 
 
 Did it work? What happens if you click on another sibling? (Oh, does your medicine taste bitter...)
 
-# CONGRATS! YOU NOW KNOW (A LITTLE) JQUERY AND THE DOM!
+# CONGRATULATIONS! YOU DID IT!
 
-## Play around in the sandbox!
+Nice work! You've got the basics of DOM manipulation with javascript down. Now, try a few more complicated tasks:
 
-Nice work - you're picking up the basics so far, but the jQuery library is vast! Why not try some more complicated tasks:
-
-- Add `<ul>` elements so that your list doesn't disappear when you change the content
+- Add some `<ul>` elements so that your list doesn't disappear when you change the content
 - Create a form to submit values directly to the page
 - Add an image and modify its height and width
-- Make an element disappear.... slowly...
+- Make an element fade... out... slowly... 
 
-Here are some solid resources for you to explore and tinker around:
+Remember, you can always check out the official javascript documentation on [MDN](https://developer.mozilla.org/en-US/) to learn more, or ask Doctor Google for some help. Everything you need to know is out there—all you need to do is be patient with yourself, ask questions, and look for answers. (Or, as [Sam(https://gfycat.com/wancomfortablearawana)] would say, "read the book and follow the instructions".)
 
-- [Learn jQuery](https://learn.jquery.com/)
-- [Codecademy](https://www.codecademy.com/tracks/jquery)
-- [W3Schools](http://www.w3schools.com/jquery/)
+***WOULD YOU LIKE TO KNOW MORE?*** 
 
-Want to code more the best instructors? Check out Galvanize's Full Stack Immersive Program!
+Check out Galvanize's Full Stack Immersive Program!
 
 - 24 Week Full-Time Program
 - 97% Job Placement Rate within six months
 - Average starting salary: $77,000 per annum
 - Scholarships available for those who qualify
-- Learn more at http://galvanize.com/courses/fullstack/
+- Learn more at https://www.galvanize.com/
 
-#### About the Author
+### Further Reading
 
-[Lee Ngo](http://linkedin.com/in/leengo) is an evangelist for Galvanize based in Seattle. Previously he worked for UP Global (now Techstars) and founded his own ed-tech company in Pittsburgh, PA. Lee believes in learning by doing, engaging and sharing, and he teaches code through a combination of visual communication, teamwork, and project-oriented learning.
+* [You Might Not Need jQuery](http://youmightnotneedjquery.com/)
+* [You Truly Don't Need jQuery](https://hackernoon.com/you-truly-dont-need-jquery-5f2132b32dd1)
+* [(Now More Than Ever) You Might Not Need jQuery](https://css-tricks.com/now-ever-might-not-need-jquery/)
 
-You can email him at lee.ngo@galvanize.com for any further questions.
+(I'm sensing a pattern...)
+
+### About the Author
+
+[Marc](https://github.com/marcmajcher/) [Majcher](https://www.linkedin.com/in/marc-majcher-80a2/) is a Lead Instructor for the Galvanize full-stack Web Development Immersive program in Austin, TX. He's been a professional developer since before there was a World Wide Web, so get off his lawn. He also performs, teaches, and directs improvised and immersive theater, and has designed and published several tabletop games.
+
+You can email him at marc.majcher@galvanize.com with questions or comments.
+
