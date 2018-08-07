@@ -417,7 +417,7 @@ Nice work! You've got the basics of DOM manipulation with javascript down. Now, 
 - Add an image and modify its height and width
 - Make an element fade... out... slowly... 
 
-Remember, you can always check out the official javascript documentation on [MDN](https://developer.mozilla.org/en-US/) to learn more, or ask Doctor Google for some help. Everything you need to know is out there—all you need to do is be patient with yourself, ask questions, and look for answers. (Or, as [Sam(https://gfycat.com/wancomfortablearawana)] would say, "read the book and follow the instructions".)
+Remember, you can always check out the official javascript documentation on [MDN](https://developer.mozilla.org/en-US/) to learn more, or ask Doctor Google for some help. Everything you need to know is out there—all you need to do is be patient with yourself, ask questions, and look for answers. (Or, as [Sam](https://gfycat.com/wancomfortablearawana) would say, "read the book and follow the instructions".)
 
 ***WOULD YOU LIKE TO KNOW MORE?*** 
 
