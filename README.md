@@ -438,14 +438,18 @@ Okay, fine, that worked. Honestly, a lot of that is fussiness to make it as pret
 
 Onward!
 
-
 ## Time to dive into the DOM!
 
-As started earlier, the **Document Object Model** or **DOM** for short is how your HTML is structured to allow for jQuery and other languages to move or *traverse* through them to find what they need in a page.
+Remember when we were talking about the DOM (*Document Object Model*) before? Well, surprise, you've been working with and manipulating the DOM this whole time, Dorothy! Every HTML element and CSS style that you've been messing with is a part of the Document Object Model.
 
-![alt text](http://www.w3schools.com/jquery/img_travtree.png "DOM Traverse Tree from W3Schools")
+So, since you're already pretty great at working with the DOM, you're ready to start playing with the actual structure of the page. The DOM is basically a series of HTML elements that are arranged in a structure called a "tree". (It really looks like an upside-down tree, but work with me.)
 
-**Illustration from W3Schools.com explained:**
+![DOM Tree](http://www.w3schools.com/jquery/img_travtree.png "DOM Traverse Tree from W3Schools")
+
+As we talked about earlier, we can use javascript to manipulate the elements (or nodes) in the DOM tree. We've been using it to change the elements themselves, but now we're going to get nuts and start moving them around!
+
+First, let's look at how that image talks about HTML elements in the DOM tree.
+
 - The `<div>` element is the parent of `<ul>`, and an ancestor of everything inside of it
 - The `<ul>` element is the parent of both `<li>` elements, and a child of `<div>`
 - The left `<li>` element is the parent of `<span>`, child of `<ul>` and a descendant of `<div>`
@@ -454,95 +458,115 @@ As started earlier, the **Document Object Model** or **DOM** for short is how yo
 - The right `<li>` element is the parent of `<b>`, child of `<ul>` and a descendant of `<div>`
 - The `<b>` element is a child of the right `<li>` and a descendant of `<ul>` and `<div>`
 
-In other words, elements follow an implicit family tree-style hierarchy of "parent" and "child", of "ascendant" and "descendant". If they are are equivalent in hierarchy, they are known as "siblings."
+Okay, this is starting to make more sense, right? Instead of a tree whose branches split and go upward, the DOM is more like a family tree, where children are connected below their parent nodes. If something is "above" a node, that's a parent, and if nodes sit below another element, we call them "siblings", because we're clever like that.
 
-In jQuery, we can write code for a `parent` element that impacts the `child`. Let's use the example where this comes in most handy: **the list**.
+SO. This is all nice, but what does it mean for us web developers? The best way to find out is to jump in and play around with stuff, and see what we can do. 
 
-Create a list with the following HTML code in your `index.html` file. Add a button at the bottom.
+Let's add another button below our list of clickables, so we can mess with it:
+
 ```html
-<li>This is a list!
-     <ul>Item #1</ul>
-     <ul>Item #2</ul>
-     <ul>Item #3</ul>
-</li>
-<button></button>
+    <button class="button-primary"></button>
 ```
 
-#### Remove the children (settle down...)
+### Hooking up our new button
 
-Let's create a jQuery function that deletes the children elements of the list.
+We're going to—you guessed it—write an event handler function to grab the click event and do the things. So let's stub that out first:
 
-**Gut check:** one of our functions may be conflicting with the one we're about to make. I'm going to disable it with double dashes before each line:
 ```js
-    // $( 'button' ).click(function() {
-     //    window.alert("Nice clicking there, my friend!");
-    // });
+    const button2 = document.querySelector('button');
 ```
-You can delete it or disable it - we won't be using it again.
 
-First, we have to create an ID for the list: `item-list`. We also need an ID for the button: `delete-item`. Name the button as well.
+Cool, so ... *WAIT!* Don't we already have a button that we're selecting with `querySelector('button')`? What do you think is going to happen if we try to add a click handler to `button2`? If you were paying attention when we were talking about `querySelector` and `querySelectorAll`, you'll recall that we'll only get the first thing that matches our selector, which would be... our first button on the page. Which is what we *don't* want, right? 
+
+Instead, let's be cool, and add an id to the button so we can grab it with `getElementById`:
+
 ```html
-<li id="item-list">This is a list!
-     <ul>Item #1</ul>
-     <ul>Item #2</ul>
-     <ul>Item #3</ul>
-</li>
-<button id="delete-list">Delete list</button>
+    <button class="button-primary" id="listButton"></button>
 ```
 
-Next, we go into our `custom.js` file and add yet another jQuery function:
+(We probably should go back do that for our first button, too, but we're way past that now!)
+
+So, now that we have an id to grab onto, we can change up our javascript to say this instead:
 
 ```js
-     $( '#delete-list' ).click(function() {
-          $( '#item-list' ).children().remove();
-     });
+    const button2 = document.getElementById('listButton');
 ```
 
-What's happening here is that when you click on the button with ID `#delete-item`, it will look for the ID `item-list`, then for one of its children elements, and remove it. Save all of your changes and try it out yourself.
+And now we have the right thing! 
 
-Did the entire list get deleted? If so, it worked!
+#### Remove the children
 
-Notice how we had to **chain** the methods of `.children()` and `.remove()` in order to make this work. This is part of the fun of working in an *object-oriented language* in dot notation!
+To interact with our list, we need to grab that, as well. We could just use `querySelector`, since it's the only `<ul>` on the page, but let's be good developers and think about the future. Add an id to the list tag, so we can get it easily:
 
-*Gut check: what if we just wanted to remove one of the items at a time? Can you do it without creating an entirely new jQuery function?*
-
-#### Let's get back at our parents instead! (Settle down...)
-
-Create a new method where if you click on one of the items of the list, it will do something to the parent element. This time, let's change the text of that element to something else. We're going to make this conditional to any `<ul>` element.
+```html
+    <ul>
+        <li class="click-me" id="click-list">Click Me!</li>
+        <!-- ... and so on ... -->
+    </ul>
+```
 
 ```js
-     $( 'ul' ).click(function() {
-          $( this ).parent();
-      });
+    const list = document.getElementById('click-list');
 ```
 
-This time, let's add a method `.text("We just changed the text! Take that, parents!");` to this function.
+Now we can go into `script.js` and add a click handler to the button. Let's say, when we click the button, we want to remove one of the items from our list. To do that, we can use the `firstElementChild` property of the list element, and the `remove()` method on that. Give it a try yourself! 
+
+*Spoiler alert*: here's one way to do it:
 
 ```js
-     $( 'ul' ).click(function() {
-          $( this ).parent().text("We just changed the text! Take that, parents!")>;
-      });
+    const list = document.getElementById('click-list');
+    document.getElementById('list-button').addEventListener('click', () =>
+        list.firstElementChild.remove());
 ```
 
-Save your work and refresh your browser. What happened? *and at what cost...?*
+(Advanced question: why are we using the `firstElementChild` property of the list element instead of `firstChild`? What happens when we do that? WHY?)
 
-#### Play into the sibling rivalry instead!
+#### Getting back at the parents
 
-The `<ul>` elements are siblings of one another. Let's click on one element and change the others! We'll need to modify our current block so that there are no conflicts.
+What else can we do? (SO MANY THINGS.) Let's do this: instead of (or in addition to) changing the styling of a list item when we click on it, let's add some text to the parent when we click on one of the items.
+
+(Two handy properties of HTML elements or DOM nodes to know: `.parentNode` and `.innerText`)
+
+Play around with it some, and then try this:
 
 ```js
-     $( 'ul' ).click(function() {
-          $( this ).siblings().text("My siblings are dorks!");
-      });
+    items.forEach(item => item.addEventListener('click', (event) => {
+        event.target.parentNode.innerText = 'HA HA GOT YOU NOW';
+    }));
 ```
 
-Did it work? What happens if you click on another sibling? (Oh, does your medicine taste bitter...)
+`OKAY KIDS, SIMMER DOWN.`
 
-# CONGRATULATIONS! YOU DID IT!
+#### Play with your siblings
 
-Nice work! You've got the basics of DOM manipulation with javascript down. Now, try a few more complicated tasks:
+Instead of messing with the list items' parent element, let's have them mess with their sibling elements instead. Let's have them take the fancy styling off of all their siblings when you click an item. In jQuery, you'd just do something like:
 
-- Add some `<ul>` elements so that your list doesn't disappear when you change the content
+```js
+$('li').click(function () {
+    $(this).siblings().removeClass('click-me');
+});
+```
+
+BUT WE'RE NOT USING JQUERY!
+
+Instead... well, this is the part where we have to get messy. There's really no clean equivalent to `.siblings()` in plain javascript. Instead, we have to do something like this:
+
+```js
+    document.querySelectorAll(`.click-me`).forEach(item => 
+        item.addEventListener('click', (event) => {
+        Array.prototype.forEach.call(event.target.parentNode.children,
+            child => child.classList.remove(clickClass));
+        event.target.classList.add(clickClass);
+    }));
+```
+
+Hm. Okay, you win this one, jQuery. But I've got my eye on you.
+
+## CONGRATULATIONS! YOU DID IT!
+
+Nice work! You've got the basics of DOM manipulation with javascript down. Now that you know how to get started, there are so many other things you can do. Play around with what you've got, or try a few more complicated tasks:
+
+- Figure out how to *add* new items to your list element
 - Create a form to submit values directly to the page
 - Add an image and modify its height and width
 - Make an element fade... out... slowly... 
