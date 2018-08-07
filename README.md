@@ -261,7 +261,7 @@ Fortunately, there's already a class defined in your CSS file called `.button-su
 
 ### Create the first link: Add Class
 
-We're going to add a link with text to your HTML file, and give it an `id` attribute so we can grab it with our javascript code. Put this in the `<body>` of your HTML, right below your button:
+We're going to add a link with text to your HTML file, and give it an `id` attribute so we can grab it with our javascript code. Put this in the `<body>` of your HTML, right above your button:
 
 ```html
     <div>
@@ -269,7 +269,7 @@ We're going to add a link with text to your HTML file, and give it an `id` attri
     </div>
 ```
 
-Now we can select that element and add a click handler to it. In jQuery, we'd do:
+(*Question: what does that `href="#"` do?*) Now we can select that element and add a click handler to it. In jQuery, we'd do:
 
 ```js
     $('#add-class').click(function() { /* ... */ });
@@ -283,7 +283,15 @@ But.... that's right. Instead, we're going to do it with regular javascript. We'
 
 Notice that we've combined the two steps that we did above for our button: we're grabbing the element (this time with `getElementById` instead of `querySelector` because we have an explicit, unique id assigned, but we could use either) and then right away adding the event listener, without assigning it to an intermediary variable in between. You can still do it the other way, if you like!
 
-So let's complete our function by adding the class to our button. Since we've already grabbed the button above, we can refer to it in our new function, too. We're just going to use `.classList.add(myClass)` to add our new class to the existing button element, so our new `ready()` function will look like this:
+So let's complete our function by adding the class to our button. Someone using jQuery would say:
+
+```js
+    $('#add-class').click(function() {
+        $('button').addClass('button-super');
+    });
+```
+
+But we're not that guy, right? Since we've already grabbed the button above, we can refer to it in our new function, too. We're just going to use `.classList.add(myClass)` to add our new class to the existing button element, so our new `ready()` function will look like this:
 
 ```js
     function ready() {
@@ -302,41 +310,63 @@ Go ahead and save all of your new code and refresh your browser to see the new s
 
 #### Create the second link: Remove Class
 
-Let's keep the party going. Let's add a link that will remove the class. First step: adding the HTML below the last link.
+To add our second link to remove the class we just added, we're going to do very much the same as before. Add the following HTML to your page, below the first link:
+
 ```html
-<div>
-     <a id="remove-class">Remove Class</a>
-</div>
+    <div>
+        <a href="#" id="remove-class">Make it small!</a>
+    </div>
 ```
-We're now working with a new ID `#remove-class`. Let's make sure it has something to work with in the jQuery file. Add the following code in your `$( document ).ready()` function.
+
+Back to our javascript file, let's add a click handler and a function to remove the class from our button. Our poor, sad jQuery developer would be writing:
+
 ```js
-     $( '#remove-class' ).click(function(){
-          $( 'button' ).removeClass('super-button');
+    $('#add-class').click(function() {
+        $('button').removeClass('button-super');
+    });
+```
+
+But we're not sad! We know javascript! Again, we still have the button element saved in our `button` variable, so that makes it easy for us. Let's throw this in our javascript file, right after our other click handler function:
+
+```js
+    document.getElementById('remove-class').addEventListener('click', () =>
+        button.classList.remove(bigClass));
+```
+
+Like our first click handler, we're just adding that event listener to the link identified by the `remove-class` id, and telling it to remove our big button class from the list of classes on the button. Reload the page, and click on your linkes to embiggen and littleify the button!
+
+(*HEY*, what happens if you click on the "Make it smaller!" link before you click on the "Make it bigger!" one? Does that break anything?)
+
+#### Create one more link: Toggle Class
+
+I bet you know what's coming next. Add our last link to your HTML page:
+
+```html
+    <div>
+        <a href="#" id="toggle-class">Toggle it!</a>
+    </div>
+```
+
+Next, we're going to make a function to turn the `button-super` class of the button on if it's off, and off if it's on. We say "toggle the class on the button" instead of that nightmare of a sentence, so let's see how we do that in jQuery:
+
+```js
+     $('#toggle-class').click(function(){
+          $('button').toggleClass('button-super');
      });
 ```
-Notice the new event handler `.removeClass` - if you click on this new link, you'll remove the class you've just added (but only if you've added it).
 
-*Gut check: what if you never clicked on the first link? What would be the effect of clicking this one?*
+Wow, that's easy! Unfortunately, in plain vanilla javascript, we have to write a conditional `if` statement to check and see if the class is on the button or not, and turn it off or on accordingly... *OH WAIT*, no we don't:
 
-#### Create just one more link: #Toggle-Class
-
-Creating a button to do one thing and another to undo it is... kind of lame. Fortunately, in jQuery, there's another method you can use to `toggle` back and forth between `add` and `remove`: the conveniently named `.toggleClass()`.
-
-First step: create a third link in your HTML with the ID `toggle-class`.
-```html
-<div>
-     <a id="toggle-class">Toggle Class</a>
-</div>
-```
-Second step:
 ```js
-     $( '#toggle-class' ).click(function(){
-          $( 'button' ).toggleClass('super-button');
-     });
+    document.getElementById('toggle-class').addEventListener('click', () =>
+        button.classList.toggle(bigClass));
 ```
-Save your changes and refresh your browser. Did it work?
 
-Now you know how to add classes and IDs in HTML that you can interact with in jQuery!
+*BOOM* IN YOUR FACE, JQUERY!
+
+I mean... Save your changes and refresh your browser to see if it works. It does? Oh, good. I'm glad to hear it.
+
+Moving on.
 
 ## Can you deal with `$( this )`?
 
