@@ -1,6 +1,7 @@
 'use strict';
 
 /* eslint-env browser */
+/* eslint-disable no-console */
 
 (() => {
     function ready() {

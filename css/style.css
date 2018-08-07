@@ -10,13 +10,16 @@ button {
 
 li {
   background-color: #eeeeee;
+  border: 1px solid black;
   border-radius: .3rem;
   color: black;
   font-size: 1.25rem;
   margin-bottom: 5px;
   padding: .75rem 1.25rem;
 }
+
 .click-me {
   background-color: #006600;
+  border: 1px solid grey;
   color: #fff;
 }
