@@ -9,7 +9,7 @@ This tutorial borrows heavily from [You Might Not Need jQuery](http://youmightno
 jQuery is a JavaScript library that was released in 2006. It is described on their site thusly:
 
 ```
- [jQuery] makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers.
+[jQuery] makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers.
  ```
 
 Back in 2006, different web browsers (IE, Opera, Firefox, Safari, Netscape, and eventually, Chrome) implemented javascript inconsistently, so javascript didn't behave the same on everyone's browser. jQuery allowed developers to write code once that would (mostly) work across all the different browsers.
@@ -33,57 +33,83 @@ You'll also need a good text editor to work on your code. We recommend [Visual S
 
 ## Let's get started!
 
-**Get the necessary files onto your computer!**
+Start off by cloning this repo to your computer. Grab the https link from the green "Clone or Download" button in the upper right, or directly from [here](https://github.com/marcmajcher/noQuery.git).
 
-1. Go to the link for this course [here](http://github.com/galvanizeOpenSource/learn-to-code-jquery).
-2. Download the ZIP file of the course.
-3. Open the ZIP file of this course (do not try to make changes without extraction).
-4. Open the unzipped folder of this course in your text editor:
-5. Open the above files in your text editor so that we can view them.
-     5. index.html
-     6. CSS/style.css
-     7. JS/custom.js
+Go into your terminal, change to the directory you want to download the repo into, and type `git clone https://github.com/marcmajcher/noQuery.git`. (If you don't have git installed, try downloading and unzipping the [zip file](https://github.com/marcmajcher/noQuery/archive/master.zip).)
 
-**Set up your files to communicate with one another**
+Once you've got the repo downloaded, change into that directory and open up the `index.html`, `script.js`, and `style.css` files in your text editor.
 
-At first, your index.html file is not configured with the others or with jQuery. In order for your HTML file to read and apply style and function code, we first have to set it up properly.
+### Set up your html file to load your javascript and styling
 
-Below is what your code should look like once downloaded:
+Before we dive in to coding, we'll need to wire up our javascript and CSS files to our HTML index page. When you start off, your HTML file will be relatively barebones, and look like this: 
+
 ```html
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <title>Demo of jQuery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo of noQuery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 </head>
+
 <body>
-<h1>Welcome to jQuery! Let's get started below.</h1>
+    <div class="container">
+        <h1>Welcome to noQuery!</h1>
+    </div>
 </body>
+
 </html>
 ```
-Let's change that. Add the following links to the `<head>` element and near the bottom of the `<body>`.
-- `<link rel="stylesheet" type="text/css" href="CSS/style.css" />` in between `<head>` and `</head>`
-- - `<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>` to the bottom of your body tag, just before `</body>`
-- `<script src="JS/custom.js"></script>` to the very bottom of your body tag, just before `</body>` but below the Google jQuery API link **(this specific placement is vital!)**
 
+We need to make two changes to make our stuff work. First, we'll link up our styling by adding our CSS file to the page with a `<link>` element. Right before the end of the `<head>`, add the link, like this:
 
-Your code should now look a lot more like the following:
 ```html
-<!doctype html>
-<html>
 <head>
-    <meta charset="utf-8">
-    <title>Demo of jQuery</title>
-    <link link rel="stylesheet" type="text/css" href="CSS/style.css" />
+    <!-- ... everything else ... -->
+    <link rel="stylesheet" href="style.css">
 </head>
+
+```
+
+(There's already another link to another CSS file there; that's okay, that's just using something called `skeleton` to add a base level of prettiness to our web page.)
+
+Next, we'll hook up our javascript to our page. At the bottom, just after our `</body>` tag, add this line of HTML:
+
+```html
+<script src="script.js"></script>
+```
+
+Notice two things: we're putting our script after our HTML, so it won't execute until the HTML loads, and, more importantly, we don't have to include the jQuery library! :)
+
+Your page should now look more like this:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo of noQuery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
 <body>
-<h1>Welcome to jQuery! Let's get started below.</h1>     
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-   <script src="JS/custom.js"></script>
+    <div class="container">
+        <h1>Welcome to noQuery!</h1>
+    </div>
 </body>
+<script src="script.js"></script>
+
 </html>
 ```
-We will be loading jQuery from Google APIs instead of downloading the entire library onto our own computer. You're welcome to download the file yourself [here](http://plugins.jquery.com/multiDownload/), but this will be a more efficient way to use jQuery moving forward.
+
+Now we're ready to begin!
 
 ## Your first task: Ready the Document!
 
