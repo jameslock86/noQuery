@@ -253,9 +253,9 @@ Fortunately, there's already a class defined in your CSS file called `.button-su
 
 ```css
 .button-super {
-  padding: 1em;
-  font-size: 2em;
-  line-height: 0;
+    font-size: 2em;
+    line-height: 0;
+    padding: 1em;
 }
 ```
 
@@ -368,33 +368,76 @@ I mean... Save your changes and refresh your browser to see if it works. It does
 
 Moving on.
 
-## Can you deal with `$( this )`?
+### Handling Multiple Elements
 
-Earlier, we asked what would happen if your selector contained `button`, and **spoiler alert** the jQuery method changes every instance of `button` on the page. What if we just wanted to change the very thing we clicked on instead?
+So, here's something fun. When you grab elements with the jQuery selector `$('button')`, what do you think will happen if there's more than one button element on your page? That's right! It will grab *EVERY* button element on the page, and apply whatever changes we say to all of them. The javascript method `document.querySelector()` will only grab the first one; if you want to grab a bunch, you'd use `document.querySelectorAll()`. 
 
-Let's create a few `<div>` fields with a class with style attributes that's already in your CSS: `.click-this`.
+Okay then, let's say we have a bunch of things on our page that we can interact with, like an unordered list of list elements, all begging to be clicked:
 
 ```html
-<div class="click-this">
-Click this #1!
-</div>
-<div class="click-this">
-Click this #2!
-</div>
-<div class="click-this">
-Click this #3!
-</div>
+    <ul>
+        <li class="click-me">Click Me!</li>
+        <li class="click-me">No, Click Me!</li>
+        <li class="click-me">No, No, Click Me Instead!</li>
+        <li class="click-me">MEEEEEE! Over Here! Click Me!</li>
+        <li class="click-me">Please, Please, Click Me! COME ON!</li>
+    </ul>
 ```
-Good! Now move over to your `custom.js` file and add the following jQuery code into the `$( document ).ready()` function block. Notice something different in one of the selectors?
+
+Next, let's add a click handler to anything with that class in our javascript file. We'll use `querySelectorAll()` to grab our list of elements:
 
 ```js
-     $( '.click-this' ).click(function(){
-          $( this ).toggleClass('click-this');
-     });
+    const items = document.querySelectorAll('.click-me');
 ```
-The selector `this` is a cool jQuery selector that affects the same element in the selector above it. It will only impact that particular element, even if they share the same class!
 
-Save your changes, refresh your browser, and test whether this works on all three `<div>`s.
+Then we can use the `.forEach()` method to loop over all of the items that we've selected, and toggle the `click-me` class off and on when we click on one of them:
+
+```js
+    items.forEach(item => item.addEventListener('click', () => {
+        this.classList.toggle('click-me');
+    }));
+```
+
+Cool, that worked! ***WAIT*** No, it didn't! BAH! I'm going back to jQuery!
+
+```js
+    $('.click-this' ).click(function() {
+        $(this).toggleClass('click-me');
+    });
+```
+
+No, no, no... this is just a javascript thing. Look, we used our arrow function up there, and then tried to refer to each one with the `this` keyword. When you use the `function` expression to make a function (like we did in the jQuery example there), it creates something called an "execution context" (don't worry about it) that we can refer to with `this`. When you use `() => {}` to do the same thing, it *DOESN'T*. Because javascript. 
+
+So. How can we get around this? Two ways. First, we can just go ahead and make our event handler function the `function` way, and make it happy for `this`:
+
+```js
+    items.forEach(item => item.addEventListener('click', function () {
+        this.classList.toggle('click-me');
+    }));
+```
+
+We can even bring it outside of our `forEach`, so we're only creating the function once, instead of the potentially hundreds of times we'd loop through each thing in our list, which makes it nice and pretty:
+
+```js
+    function toggleItem() {
+        this.classList.toggle('click-me');
+    }
+
+    items.forEach(item => item.addEventListener('click', toggleItem));
+```
+
+BUT! We live in the future, and we don't have to use dirty old function expressions in this case. Instead of `this`, we can pass in the event to our handler function, and use `event.target` to refer to the thing we clicked:
+
+```js
+    items.forEach(item => item.addEventListener('click', event =>
+        event.target.classList.toggle('click-me')
+    ));
+```
+
+Okay, fine, that worked. Honestly, a lot of that is fussiness to make it as pretty/readable as possible. Doing it the first way, with `function() { ... }` is just fine, so if that makes the most sense to you, cool.
+
+Onward!
+
 
 ## Time to dive into the DOM!
 
