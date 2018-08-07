@@ -362,7 +362,7 @@ Wow, that's easy! Unfortunately, in plain vanilla javascript, we have to write a
         button.classList.toggle(bigClass));
 ```
 
-*BOOM* IN YOUR FACE, JQUERY!
+***BOOM*** IN YOUR FACE, JQUERY!
 
 I mean... Save your changes and refresh your browser to see if it works. It does? Oh, good. I'm glad to hear it.
 
@@ -512,7 +512,7 @@ Check out Galvanize's Full Stack Immersive Program!
 
 - 24 Week Full-Time Program
 - 97% Job Placement Rate within six months
-- Average starting salary: $77,000 per annum
+- Average starting salary: $77,000 per year
 - Scholarships available for those who qualify
 - Learn more at https://www.galvanize.com/
 
