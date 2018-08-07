@@ -4,12 +4,12 @@
 
 (() => {
     function ready() {
-        console.log('Hello, programmer!');
         const button = document.querySelector('button');
-        console.log(button);
-
         button.addEventListener('click', () => console.log('YOU CLICK GOOD'));
-    }
 
+        const bigClass = 'button-super';
+        document.getElementById('add-class').addEventListener('click', () =>
+            button.classList.add(bigClass));
+    }
     document.addEventListener('DOMContentLoaded', ready);
 })();

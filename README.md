@@ -241,64 +241,66 @@ Reload your page, and give it a few clicks to see what happens in your javascrip
 **YOU DID IT!** You added a loader and click function to your web page using just regular old vanilla javascript, without a lick of jQuery. Don't you feel awesome? You should. Let's do more!
 
 
-## Adding and Removing Classes in jQuery
+## Adding and Removing Classes 
 
-Let's face it - your button is ugly. We can make it look better. We're going to create three things:
+So, our button already looks nice (thank you, [Skeleton](http://getskeleton.com/)!), but let's make it BIGGER AND BETTER. To that end, we're going to three things:
 
-1. A link that will add our button with new styles  
-2. A link that will remove the styles
-3. A link that will toggle between having the two styles
+1. Create a link that will add a new style to our button  
+2. Create a link that will remove the new style from our button
+3. Create a link that will toggle between the two different styles
 
+Fortunately, there's already a class defined in your CSS file called `.button-super` that will make it big and beautiful:
 
-#### Back to CSS
-
-Fortunately, your CSS file already has a class called `.super-button` that can instantly improve the quality of yours:
 ```css
-.super-button {
-    color: #fff;
-    background-color: #0275d8;
-    border-color: #0275d8;
-    padding: .75rem 1.25rem;
-    font-size: 1.25rem;
-    line-height: 1.333333;
-    border-radius: .3rem;
-    border: 1px solid transparent;
-}    
+.button-super {
+  padding: 1em;
+  font-size: 2em;
+  line-height: 0;
+}
 ```
-Don't worry if you don't fully understand what's happening here, but if you're interested, we're sampling the [Bootstrap large button](http://v4-alpha.getbootstrap.com/components/buttons/) class.
 
-#### Create the first link: #Add-Class
+### Create the first link: Add Class
 
-Add the following code into the `<body>` of your HTML. It is a link with text, but for now it lacks function.
+We're going to add a link with text to your HTML file, and give it an `id` attribute so we can grab it with our javascript code. Put this in the `<body>` of your HTML, right below your button:
+
 ```html
-<div>
-     <a>Add Class</a>
-</div>     
+    <div>
+        <a href="#" id="add-class">Make it big!</a>
+    </div>
 ```
-We'll need to give this link an `id` so that it matches up with the jQuery we'll create later. I suggest `#add-class`.
-```html
-<div>
-     <a id="add-class">Add Class</a>
-</div>
-```
-Now we're ready to set up our jQuery function. Add the following script into your `$( document ).ready()` function:
+
+Now we can select that element and add a click handler to it. In jQuery, we'd do:
+
 ```js
-     $( '#add-class' ).click(function() {
-     });
+    $('#add-class').click(function() { /* ... */ });
 ```
-Right now ths function does nothing when you click on it. Add the following script to this new function:
+
+But.... that's right. Instead, we're going to do it with regular javascript. We're going to select our link element with `getElementById`, and attach the a function to it to handle the click event:
+
 ```js
-     $( '#add-class' ).click(function() {
-          $( 'button' ).addClass('super-button');
-     });
+    document.getElementById('add-class').addEventListener('click', () => { /* ... */ });
 ```
-Let's slow down for a second. What we've done is set up our jQuery file so that when you click on an element with the ID `#add-class`, it will add the CSS styles under `.super-button` to that `button`. Make sense?
 
-*Gut check: what if we added more buttons? What would happen if we clicked this link?*
+Notice that we've combined the two steps that we did above for our button: we're grabbing the element (this time with `getElementById` instead of `querySelector` because we have an explicit, unique id assigned, but we could use either) and then right away adding the event listener, without assigning it to an intermediary variable in between. You can still do it the other way, if you like!
 
-Save all of your code and refresh your browser. Test the link. Did it work?
+So let's complete our function by adding the class to our button. Since we've already grabbed the button above, we can refer to it in our new function, too. We're just going to use `.classList.add(myClass)` to add our new class to the existing button element, so our new `ready()` function will look like this:
 
-#### Create the second link: #Remove-Class
+```js
+    function ready() {
+        const button = document.querySelector('button');
+        button.addEventListener('click', () => console.log('YOU CLICK GOOD'));
+
+        const bigClass = 'button-super';
+        document.getElementById('add-class').addEventListener('click', () =>
+            button.classList.add(bigClass));
+    }
+```
+
+Notice that we're saving the name of our new class, "button-super" in a variable (constant, really, but that's fine), so we can use it in the rest of the functions that are coming up!
+
+Go ahead and save all of your new code and refresh your browser to see the new stuff. Click on the "Make it big!" link to see if it works. Does it work? It does? YES! Let's keep going. 
+
+#### Create the second link: Remove Class
 
 Let's keep the party going. Let's add a link that will remove the class. First step: adding the HTML below the last link.
 ```html
